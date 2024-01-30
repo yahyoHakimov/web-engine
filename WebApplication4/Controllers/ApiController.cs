@@ -41,8 +41,6 @@ namespace WebApplication4.Controllers
             }
         }
 
-
-
         private bool CheckAppropriateness(string searchTerm)
         {
             if (string.IsNullOrEmpty(searchTerm) || searchTerm.Length < 3 || searchTerm.Length > 50)
