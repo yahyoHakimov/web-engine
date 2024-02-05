@@ -1,7 +1,5 @@
-using System.Globalization;
 using WebApplication4.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +10,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ApiContext>(options =>
+builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<IUserInfoApiRepository, SqlCommandApiRepository>();
+builder.Services.AddScoped<ILogInfosApiRepository, SqlLogInfoApiRepository>();
+
 
 var app = builder.Build();
 

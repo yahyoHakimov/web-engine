@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Text.Json;
 
 namespace WebApplication4.Controllers
 {
@@ -27,7 +25,6 @@ namespace WebApplication4.Controllers
 
                 HttpResponseMessage response = await client.GetAsync(apiUrl);
 
-                Console.WriteLine(response.Content);
 
                 if (response.IsSuccessStatusCode)
                 {

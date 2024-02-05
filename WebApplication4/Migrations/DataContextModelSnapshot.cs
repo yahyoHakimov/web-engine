@@ -9,8 +9,8 @@ using WebApplication4.Data;
 
 namespace WebApplication4.Migrations
 {
-    [DbContext(typeof(ApiContext))]
-    partial class ApiContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DataContext))]
+    partial class DataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -33,38 +33,51 @@ namespace WebApplication4.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserInfoId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserInfoId");
 
                     b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("WebApplication4.Models.UserInfo", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Ip")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LogInfosId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("LogInfosId");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WebApplication4.Models.UserInfo", b =>
+            modelBuilder.Entity("WebApplication4.Models.LogInfo", b =>
                 {
-                    b.HasOne("WebApplication4.Models.LogInfo", "LogInfos")
-                        .WithMany()
-                        .HasForeignKey("LogInfosId")
+                    b.HasOne("WebApplication4.Models.UserInfo", "UserInfo")
+                        .WithMany("Logs")
+                        .HasForeignKey("UserInfoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("LogInfos");
+                    b.Navigation("UserInfo");
+                });
+
+            modelBuilder.Entity("WebApplication4.Models.UserInfo", b =>
+                {
+                    b.Navigation("Logs");
                 });
 #pragma warning restore 612, 618
         }
